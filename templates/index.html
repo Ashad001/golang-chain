@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+</head>
+<body>
+    <h1>Chat with the AI</h1>
+    <form id="chatForm">
+        <label for="userQuery">Enter your query:</label>
+        <input type="text" id="userQuery" name="user_query" required>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Response</h2>
+    <div id="response"></div>
+
+    <script>
+        document.getElementById('chatForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const responseDiv = document.getElementById('response');
+            responseDiv.innerHTML = 'Loading...';
+
+            const response = await fetch('/chat/', {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_query: formData.get('user_query')
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const result = await response.json();
+            responseDiv.innerHTML = JSON.stringify(result, null, 2);
+        });
+    </script>
+</body>
+</html>
