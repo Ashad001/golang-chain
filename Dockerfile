@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=builder /app/main /app/
 RUN ls -l /app
 RUN pwd
-CMD ["./main"]
+CMD ./main
