@@ -1,49 +1,24 @@
-# Use the official Go image to create a build artifact
-FROM golang:1.22.3 AS builder
+FROM golang:1.22.3 as builder
 
-# Set the Current Working Directory inside the container
+# Install Go if it's not already installed
+RUN if ! [ -x "$(command -v go)" ]; then echo "Installing Go..." && \
+    apk add --no-cache curl && \
+    curl -L "https://golang.org/dl/go1.21.linux-amd64.tar.gz" | tar -xz && \
+    mv go /usr/local && \
+    rm -rf /var/cache/apk/*; fi
+
 WORKDIR /app
 
-# Copy go mod and sum files
-COPY go.mod go.sum ./
+COPY . /app
 
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
-RUN go mod download
+RUN go build -o main .
+RUN chmod +x /app/main
 
-# Copy the source from the current directory to the Working Directory inside the container
-COPY . .
+FROM alpine:latest
 
-# Build the Go app
-RUN go build -o main main.go
+WORKDIR /app
 
-# Debug step: list the contents of the /app directory
-RUN ls -al /app
-
-# Use a debian base image to reduce the final image size
-FROM debian:latest
-
-# Install ca-certificates to make HTTPS requests
-RUN apt-get update && apt-get install -y ca-certificates
-
-# Set the Current Working Directory inside the container
-WORKDIR /root/
-
-# Copy the Pre-built binary file from the previous stage
-COPY --from=builder /app/main .
-
-# Ensure the main executable has execute permissions
-RUN chmod +x /root/main
-
-# Debug step: list the contents of the /root directory again to confirm permissions
-RUN ls -al /root
-
-# Debug step: show file information
-RUN file /root/main
-
-# Ensure we are running as the root user
-USER root
-# Expose port 8080 to the outside world
-EXPOSE 8080
-
-# Command to run the executable
-CMD ["/root/main"]
+COPY --from=builder /app/main /app/
+RUN ls -l /app
+RUN pwd
+CMD ["./main"]
