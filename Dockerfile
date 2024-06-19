@@ -1,4 +1,4 @@
-FROM golang:1.22.3 as builder
+FROM golang:1.21 as builder
 
 # Install Go if it's not already installed
 RUN if ! [ -x "$(command -v go)" ]; then echo "Installing Go..." && \
@@ -21,4 +21,4 @@ WORKDIR /app
 COPY --from=builder /app/main /app/
 RUN ls -l /app
 RUN pwd
-CMD ./main
+CMD ["./main"]
