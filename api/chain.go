@@ -31,10 +31,10 @@ func InvokeChain(apiKey string, userQuery string) (ChatOutput, error) {
 	prompt := string(systemPrompt) + "\n\nUser Query: " + userQuery
 
 	// Write prompt to log file ==> To be removed in production
-	err = writePromptToLogFile(prompt)
-	if err != nil {
-		return ChatOutput{}, fmt.Errorf("error writing prompt to log file: %v", err)
-	}
+	// err = writePromptToLogFile(prompt)
+	// if err != nil {
+	// 	return ChatOutput{}, fmt.Errorf("error writing prompt to log file: %v", err)
+	// }
 
 	ctx := context.Background()
 
