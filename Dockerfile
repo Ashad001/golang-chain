@@ -1,27 +1,26 @@
-# Build stage
 FROM golang:1.22.3 as builder
 
 WORKDIR /app
 
-# Copy the source code into the container
 COPY . .
 
-# Build the Go app
-RUN go build -o main .
+# Build the Go application
+RUN go build -o main ./main.go
 
-# Ensure the binary has execute permissions
-RUN chmod +x main
-
-# Final stage
+# Use a minimal base image
 FROM alpine:latest
 
 WORKDIR /app
 
-# Copy the binary from the builder stage
-COPY --from=builder /app/main .
+# Copy the Go binary from the builder stage
+COPY --from=builder /app/main /app/
 
-# Ensure the binary has execute permissions (redundant but safe)
-RUN chmod +x main
+# Ensure the binary has execution permissions
+RUN chmod +x /app/main
 
-# Run the binary
+# Verify the binary is in place and executable
+RUN ls -l /app
+RUN pwd
+
+# Set the entrypoint to run the Go binary
 CMD ["./main"]
