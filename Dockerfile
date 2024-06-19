@@ -31,11 +31,8 @@ WORKDIR /root/
 # Copy the Pre-built binary file from the previous stage
 COPY --from=builder /app/main .
 
-# Debug step: list the contents of the /root directory
-RUN ls -al /root
-
 # Ensure the main executable has execute permissions
-RUN chmod +x ./main
+RUN chmod +x /root/main
 
 # Debug step: list the contents of the /root directory again to confirm permissions
 RUN ls -al /root
@@ -44,4 +41,4 @@ RUN ls -al /root
 EXPOSE 8080
 
 # Command to run the executable
-CMD ./main
+CMD ./root/main
