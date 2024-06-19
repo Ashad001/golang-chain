@@ -42,7 +42,6 @@ RUN file /root/main
 
 # Ensure we are running as the root user
 USER root
-
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
