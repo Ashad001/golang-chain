@@ -19,11 +19,11 @@ RUN go build -o main main.go
 # Debug step: list the contents of the /app directory
 RUN ls -al /app
 
-# Use a smaller base image to reduce the final image size
-FROM alpine:latest
+# Use a debian base image to reduce the final image size
+FROM debian:latest
 
 # Install ca-certificates to make HTTPS requests
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates
 
 # Set the Current Working Directory inside the container
 WORKDIR /root/
@@ -37,8 +37,14 @@ RUN chmod +x /root/main
 # Debug step: list the contents of the /root directory again to confirm permissions
 RUN ls -al /root
 
+# Debug step: show file information
+RUN file /root/main
+
+# Ensure we are running as the root user
+USER root
+
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Command to run the executable
-CMD ./root/main
+CMD ["/root/main"]
