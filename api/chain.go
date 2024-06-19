@@ -71,19 +71,19 @@ func extractResponse(responseContent string) string {
 	return responseContent
 }
 
-func writePromptToLogFile(prompt string) error {
-	if _, err := os.Stat("./log"); os.IsNotExist(err) {
-		os.Mkdir("./log", 0755)
-	}
-	file, err := os.OpenFile("./log/prompt.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return fmt.Errorf("error opening log file: %v", err)
-	}
-	defer file.Close()
+// func writePromptToLogFile(prompt string) error {
+// 	if _, err := os.Stat("./log"); os.IsNotExist(err) {
+// 		os.Mkdir("./log", 0755)
+// 	}
+// 	file, err := os.OpenFile("./log/prompt.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+// 	if err != nil {
+// 		return fmt.Errorf("error opening log file: %v", err)
+// 	}
+// 	defer file.Close()
 
-	if _, err := file.WriteString(prompt); err != nil {
-		return fmt.Errorf("error writing to log file: %v", err)
-	}
+// 	if _, err := file.WriteString(prompt); err != nil {
+// 		return fmt.Errorf("error writing to log file: %v", err)
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
