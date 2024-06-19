@@ -1,5 +1,5 @@
 # Use the official Go image to create a build artifact
-FROM golang:1.22.3 AS builder
+FROM golang:1.18 AS builder
 
 # Set the Current Working Directory inside the container
 WORKDIR /app
@@ -14,7 +14,7 @@ RUN go mod download
 COPY . .
 
 # Build the Go app
-RUN go build -o main .
+RUN go build -o main main.go
 
 # Debug step: list the contents of the /app directory
 RUN ls -al /app
@@ -44,4 +44,4 @@ RUN ls -al /root
 EXPOSE 8080
 
 # Command to run the executable
-CMD ["./main"]
+CMD ./main
