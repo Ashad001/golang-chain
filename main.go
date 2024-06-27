@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"golang-chain/api"
+	"golangchain/api"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,5 +19,5 @@ func main() {
 
 	r.POST("/chat/", api.ChatHandler)
 
-	r.Run(":8080")
+	r.Run(":7860")
 }

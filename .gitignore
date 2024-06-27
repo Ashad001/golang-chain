@@ -21,7 +21,7 @@
 go.work
 go.work.sum
 chats
-system_prompt.txt
+# system_prompt.txt
 
 # secrets
 *.env

@@ -1,22 +1,12 @@
-FROM golang:1.22.3 AS builder
+FROM golang:1.22
 
-WORKDIR /app
+WORKDIR /code
 
 COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN go build -o main .
 
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+RUN go build -o /golangchain
 
-WORKDIR /root/
-
-COPY --from=builder /app/main .
-
-RUN chmod +x ./main
-EXPOSE 8080
-
-# Command to run the executable
-CMD ["./main"]
+CMD ["/golangchain"]
