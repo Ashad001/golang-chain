@@ -1,4 +1,4 @@
----
+<!-- ---
 title: My Go API
 emoji: 🐹
 colorFrom: blue
@@ -7,7 +7,7 @@ sdk: docker
 sdk_version: "latest"
 app_file: .huggingface/Dockerfile
 pinned: false
----
+--- -->
 
 # My Go API
 
