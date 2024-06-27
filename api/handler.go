@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"net/http"
 	"os"
 
@@ -14,6 +15,7 @@ func ChatHandler(c *gin.Context) {
 		return
 	}
 	apiKey := os.Getenv("GROQ_API_KEY")
+	log.Println("API Key: ", apiKey)
 	response, err := InvokeChain(apiKey, inputData.UserQuery)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
